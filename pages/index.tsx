@@ -1,20 +1,17 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Layout from '../components/Layout'
+import data from '../utils/data'
+import ProductItem from '../components/ProductItem'
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>E-Commerce</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
-        <h1 className="text-3xl font-bold ">Hello word</h1>
-      </main>
-    </div>
+    <Layout title="E-Com">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {data.products.map((product) => (
+          <ProductItem product={product} key={product.slug}></ProductItem>
+        ))}
+      </div>
+    </Layout>
   )
 }
 
