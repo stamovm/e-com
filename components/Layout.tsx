@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { Store } from '../utils/Store'
 
 type Props = {
   title: string
@@ -8,6 +9,9 @@ type Props = {
 }
 
 const Layout = ({ title, children }: Props) => {
+  const { state }: any = useContext(Store)
+  const { cart } = state
+
   return (
     <>
       <Head>
@@ -21,7 +25,17 @@ const Layout = ({ title, children }: Props) => {
             </Link>
             <div>
               <Link href="/cart">
-                <a className="p-2">Cart</a>
+                <a className="p-2">
+                  Cart
+                  {cart.cartItems.length > 0 && (
+                    <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                      {cart.cartItems.reduce(
+                        (a: number, c: { quantity: number }) => a + c.quantity,
+                        0
+                      )}
+                    </span>
+                  )}
+                </a>
               </Link>
               <Link href="/login">
                 <a className="p-2">Login</a>
@@ -29,7 +43,7 @@ const Layout = ({ title, children }: Props) => {
             </div>
           </nav>
         </header>
-        <main>{children}</main>
+        <main className="container px-4 m-auto mt-4">{children}</main>
 
         <footer className="flex items-center justify-center h-10 shadow-inner">
           Footer
