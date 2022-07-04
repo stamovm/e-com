@@ -10,6 +10,7 @@ import { Store } from '../../utils/Store'
 const ProductScreen: NextPage = () => {
   const { state, dispatch }: any = useContext(Store)
 
+  const router = useRouter()
   const { query } = useRouter()
   const { slug } = query
   const product = data.products.find((x) => x.slug === slug)
@@ -29,6 +30,7 @@ const ProductScreen: NextPage = () => {
     }
 
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+    router.push('/cart')
   }
 
   return (

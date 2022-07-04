@@ -11,13 +11,19 @@ function reducer(state: any, action: any) {
       const newItem = action.payload
 
       const existItem = state.cart.cartItems.find(
-        (item: any) => item.slug === newItem.slug
+        (item: { slug: string }) => item.slug === newItem.slug
       )
       const cartItems = existItem
-        ? state.cart.cartItems.map((item: any) =>
+        ? state.cart.cartItems.map((item: { name: string }) =>
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem]
+      return { ...state, cart: { ...state.cart, cartItems } }
+    }
+    case 'CART_REMOVE_ITEM': {
+      const cartItems = state.cart.cartItems.filter(
+        (item: { slug: string }) => item.slug !== action.payload.slug
+      )
       return { ...state, cart: { ...state.cart, cartItems } }
     }
     default:
