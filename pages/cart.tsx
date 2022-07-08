@@ -7,14 +7,29 @@ import { useRouter } from 'next/router'
 import { XCircleIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 
+type Item = {
+  slug: string
+  image: string
+  name: string
+  quantity: number
+  countInStock: number
+  price: number
+}
+
 const CartPage: NextPage = () => {
   const router = useRouter()
   const { state, dispatch }: any = useContext(Store)
   const {
     cart: { cartItems },
   } = state
-  const removeItemHandler = (item) => {
+
+  const removeItemHandler = (item: Item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+  }
+
+  const updateQuantityHandler = (item: Item, qty: string) => {
+    const quantity = parseInt(qty)
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
   }
 
   return (
@@ -37,7 +52,7 @@ const CartPage: NextPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {cartItems.map((item) => (
+                {cartItems.map((item: Item) => (
                   <tr key={item.slug} className="border-b">
                     <td>
                       <Link href={`/product/${item.slug}`}>
@@ -53,7 +68,20 @@ const CartPage: NextPage = () => {
                         </a>
                       </Link>
                     </td>
-                    <td className="p-5 text-right">{item.quantity}</td>
+                    <td className="p-5 text-right">
+                      <select
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateQuantityHandler(item, e.target.value)
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="p-5 text-right">${item.price}</td>
                     <td className="p-5 text-center">
                       <button onClick={() => removeItemHandler(item)}>
@@ -70,9 +98,10 @@ const CartPage: NextPage = () => {
               <li>
                 <div className="pb-3 text-xl">
                   Subtotal (
-                  {cartItems.reduce((a: number, c) => a + c.quantity, 0)}) : $
+                  {cartItems.reduce((a: number, c: Item) => a + c.quantity, 0)})
+                  : $
                   {cartItems.reduce(
-                    (a: number, c) => a + c.quantity * c.price,
+                    (a: number, c: Item) => a + c.quantity * c.price,
                     0
                   )}
                 </div>

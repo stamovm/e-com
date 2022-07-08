@@ -1,11 +1,16 @@
 import react, { createContext, useReducer } from 'react'
 
+type Action = {
+  type: string
+  payload: any
+}
+
 const initialState = {
   cart: { cartItems: [] },
 }
 export const Store = createContext({})
 
-function reducer(state: any, action: any) {
+function reducer(state: { cart: any }, action: Action) {
   switch (action.type) {
     case 'CART_ADD_ITEM': {
       const newItem = action.payload
