@@ -6,6 +6,7 @@ import { Store } from '../utils/Store'
 import { useRouter } from 'next/router'
 import { XCircleIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 
 type Item = {
   slug: string
@@ -122,4 +123,4 @@ const CartPage: NextPage = () => {
   )
 }
 
-export default CartPage
+export default dynamic(() => Promise.resolve(CartPage), { ssr: false })
