@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Store } from '../utils/Store'
@@ -11,6 +11,11 @@ type Props = {
 const Layout = ({ title, children }: Props) => {
   const { state }: any = useContext(Store)
   const { cart } = state
+  const [cartItemsCount, setCartItemsCount] = useState(0)
+
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0))
+  }, [cart.cartItems])
 
   return (
     <>
@@ -29,10 +34,11 @@ const Layout = ({ title, children }: Props) => {
                   Cart
                   {cart.cartItems.length > 0 && (
                     <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
-                      {cart.cartItems.reduce(
+                      {/* {cart.cartItems.reduce(
                         (a: number, c: { quantity: number }) => a + c.quantity,
                         0
-                      )}
+                      )} */}
+                      {cartItemsCount}
                     </span>
                   )}
                 </a>
