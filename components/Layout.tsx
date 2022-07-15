@@ -14,7 +14,9 @@ const Layout = ({ title, children }: Props) => {
   const [cartItemsCount, setCartItemsCount] = useState(0)
 
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0))
+    setCartItemsCount(
+      cart.cartItems.reduce((a: number, c) => a + c.quantity, 0)
+    )
   }, [cart.cartItems])
 
   return (

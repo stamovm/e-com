@@ -26,3 +26,9 @@ a {
 .primary-button {
   @apply px-4 py-2 rounded shadow outline-none bg-amber-300 hover:bg-amber-400 active:bg-amber-500 transition duration-300 ease-in-out;
 }
+
+input,
+select,
+textarea {
+  @apply rounded border p-2  outline-none ring-indigo-300  focus:ring;
+}
